@@ -81,7 +81,7 @@ Deployed a Windows Server 2022 virtual machine in Microsoft Azure to serve as th
 
 *This was the first real troubleshooting scenario of the lab — a production-like constraint that required adapting the deployment plan based on regional resource availability.*
 
-**Screenshot:** VM overview — labadmin, Standard D2s_v3, East US Zone 2, Status: Running, Resource Group: RG-HybridIdentityLab
+![VM Overview](screenshots/VM_running.png)
 
 ---
 
@@ -123,7 +123,7 @@ corp.cameronlab.local
 **Why OU Structure Matters:**
 Organizational Units provide a hierarchical structure for organizing AD objects by department or function. OUs enable granular Group Policy application, delegated administration, and simplified user management at scale — allowing IT teams to apply policies to entire departments rather than individual accounts.
 
-**Screenshot:** Full OU tree expanded in Active Directory Users and Computers showing all 6 OUs under corp.cameronlab.local
+![Full OU Structure](screenshots/Full_OU_Structure.png)
 
 ---
 
@@ -141,7 +141,7 @@ Created the following security groups inside `OU=Groups`:
 **Why Security Groups Matter:**
 Security Groups control access to resources at the group level rather than the individual user level. Assigning permissions to groups instead of users reduces administrative overhead — when a user changes roles you update their group membership rather than reconfiguring individual resource permissions across the environment.
 
-**Screenshots:** GRP-ITAdmins members tab showing Anthony Edwards, Carmelo Anthony, Derrick Rose from corp.cameronlab.local/OU=IT; GRP-HRUsers members tab showing Dwayne Wade, Jalen Brunson, Kobe Bryant from OU=HR; GRP-FinanceUsers members tab showing Kyrie Irving, LeBron James, Michael Jordan, Stephen Curry from OU=Finance
+![Security Group Members](screenshots/Security_group_members.png)
 
 ---
 
@@ -182,7 +182,7 @@ Configured Account Lockout Policy via Group Policy Management:
   - Account lockout duration: **10 minutes**
   - Reset account lockout counter after: **10 minutes**
 
-**Screenshot:** Group Policy Management Editor showing Account Lockout Policy — Account lockout threshold highlighted showing 3 invalid logon attempts
+![Account Lockout Policy](screenshots/Account_lockout_policy.png)
 
 Triggered account lockout by attempting sign-in with incorrect credentials 3 times. Verified lockout status in ADUC Reset Password dialog — Account Lockout Status changed from Unlocked to **Locked out**. Resolved by checking "Unlock the user's account" checkbox in Reset Password dialog alongside password reset.
 
@@ -235,7 +235,7 @@ During the Connect to AD DS step the wizard auto-populated CONTOSO.COM\labadmin 
 
 Root cause: CONTOSO.COM is Microsoft's default placeholder domain that auto-populates in the Entra Connect wizard. Resolved by replacing with the correct fully qualified domain name: corp.cameronlab.local\labadmin. Sync completed successfully after correction.
 
-**Screenshot:** Entra Connect Configuration complete screen — "Microsoft Entra Connect Sync configuration succeeded. The synchronization process has been initiated."
+![Entra Connect Configuration Complete](screenshots/Entra_connect_config.png)
 
 ---
 
@@ -245,7 +245,7 @@ After configuration navigated to entra.microsoft.com → Users to verify sync re
 
 Results: All 11 on-premises AD users appeared in Microsoft Entra ID with On-premises sync: Yes confirmed for each user. Users provisioned with UPNs mapped to tenant domain (@camgoodwin.onmicrosoft.com).
 
-**Screenshot:** Entra ID Users page showing all 11 NBA players with On-premises sync column showing Yes for each synced user
+![Entra ID Sync Verified](screenshots/Entra_ID_Sync.png)
 
 Individual user verification performed on Anthony Edwards profile showing:
 - On-premises sync enabled: Yes
@@ -254,7 +254,7 @@ Individual user verification performed on Anthony Edwards profile showing:
 - On-premises SAM account name: aedwards
 - On-premises domain name: corp.cameronlab.local
 
-**Screenshot:** Anthony Edwards Entra ID profile showing full on-premises sync details
+![Anthony Edwards On-Premises Sync Profile](screenshots/AE_sync.png)
 
 ---
 
@@ -307,7 +307,7 @@ Configured Authentication Methods policies in Entra ID Security center. Microsof
 
 Azure displayed lockout warning during policy creation recommending admin exclusion. Best practice followed — excluded Global Admin account to maintain emergency administrative access. In enterprise environments at least one break-glass admin account is always excluded from Conditional Access policies to prevent complete tenant lockout.
 
-**Screenshot:** CA-RequireMFA-AllUsers policy configured showing all users, all resources, report-only mode, and admin exclusion warning with "Exclude current user" selected
+![CA-RequireMFA-AllUsers Policy](screenshots/CA-RequireMFA.png)
 
 ---
 
@@ -335,7 +335,7 @@ Report-only mode allows administrators to evaluate the impact of a Conditional A
 
 Switched CA-RequireMFA-AllUsers policy from Report-only to On. Authenticated as synced user aedwards@camgoodwin.onmicrosoft.com via incognito browser session. Sign-in prompted "Let's keep your account secure" — MFA registration required before accessing M365 resources. Completed number matching verification — number 38 displayed, confirmed in Microsoft Authenticator app.
 
-**Screenshots:** aedwards@camgoodwin.onmicrosoft.com sign-in entering password; "Let's keep your account secure" MFA setup prompt; Number matching screen showing "38" — enter in Authenticator app to approve
+![MFA Number Matching](screenshots/MFA_Number.png)
 
 ---
 
@@ -364,7 +364,7 @@ Start-ADSyncSyncCycle -PolicyType Delta
 ```
 Result: **Success**
 
-**Screenshot:** PowerShell window showing full command sequence — Stop-Service, Start-Service with waiting warning, Start-ADSyncSyncCycle -PolicyType Delta with Result: Success output
+![PowerShell ADSync Result Success](screenshots/PowerShell_sync.png)
 
 **Resolution:** ADSync service restart initiated automatic sync cycle. Manual delta sync forced to accelerate propagation. Result confirmed as Success.
 
