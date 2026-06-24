@@ -22,9 +22,6 @@ The lab covers the full lifecycle of enterprise identity management: deploying a
 │  corp.cameronlab.local          │         │  │  Conditional Access + MFA  │  │
 │                                 │         │  └────────────────────────────┘  │
 └─────────────────────────────────┘         └──────────────────────────────────┘
-```
-
-![Hybrid Identity Lab Architecture](screenshots/hybrid_identity_lab_architecture.png)
 
 ---
 
